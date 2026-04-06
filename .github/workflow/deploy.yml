@@ -1,0 +1,31 @@
+name: 部署MoonAndSea Hugo网站到GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  # 仅main分支推送时触发部署
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 拉取源码（包含子模块主题）
+        uses: actions/checkout@v4
+        with:
+          submodules: true  # 适配你的.gitmodules，自动拉取主题子模块
+          fetch-depth: 0
+
+      - name: 安装Hugo（extended版本，支持SCSS等高级功能）
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: 'latest'
+          extended: true
+
+      - name: 构建静态网站（压缩优化）
+        run: hugo --minify
+
+      - name: 部署到GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
