@@ -1,3 +1,4 @@
+baseURL = "https://cwl12.github.io/"
 theme = "gallery"
 copyright = "© Your Name"
 defaultContentLanguage = "en"
